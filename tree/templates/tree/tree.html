@@ -1,0 +1,35 @@
+{% extends 'tree/base.html' %}
+
+{% block center %}
+<h2>ID {{individual}}{{individual.sex}}</h2>
+<div class="TAC"><a href='https://vger.txbiomed.org/labkey/SNPRC/ehr-participantView.view?participantId={{individual}}'>TAC⧉</a></div>
+<br>
+<h4 id='parents'>Parents</h4>
+<div class='tree'>
+    <ul>
+        <li class='sire'><a {% if individual.sire %}href={% url 'individual' individual.sire %}{% endif %}>{{individual.sire|default:"Unknown"}}{{sire.sex|default:"♂"}}</a></li>
+    </ul>
+    <ul>
+        <li class='dam'><a {% if individual.dam %}href={% url 'individual' individual.dam %}{% endif %}>{{individual.dam|default:"Unknown"}}{{dam.sex|default:"♀"}}</a></li>
+    </ul>
+</div>
+<br>
+<h4>Mates</h4>
+<div class='tree' id='mates'>
+        {% for mate in individual.mates %}
+        <ul>
+            <li><a href={% url 'individual' mate %}>{{mate}}{{mate.sex}}</a>
+            </li>
+        </ul>
+        {% endfor %}
+</div>
+<br>
+<h4>Individual & Descendants</h4>
+<div class='tree'>
+    <ul>
+        <li><a href='#'>{{individual}}{{individual.sex}}</a>
+            {% include "./offspring.html" %}
+        </li>
+    </ul>
+</div>
+{% endblock %}
