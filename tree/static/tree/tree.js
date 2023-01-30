@@ -1,11 +1,30 @@
-document.getElementById("t").innerHTML = "First";
+/* Determine length of x-axis by number of leaf nodes on pedigree. */
+x_length = $("#descendants li:not(:has(li))").length
+x_length *= 4.95
+$("#descendants").css('width', x_length.toString() + 'em')
 
-const mates_div = document.getElementById('mates');
-var mates = mates_div.children;
-for(var i=0; i<mates.length; i++){
-    document.getElementById("t").innerHTML = "Second";
-    var mate = mates[i];
-    mate.children[0].children[i].addEventListener('mouseover', () => mate.children[0].children[i].style.backgroundColor = "orange");
-    mate.children[0].children[i].addEventListener('mouseleave', () => mate.children[0].children[i].style.backgroundColor = "white");
-    document.getElementById("t").innerHTML = "Third";
-}
+// Keep track of whether CTRL key is pressed
+var ctrlPressed = false;
+$(document).keydown(function(evt) {
+  if (evt.which == 17) {
+    ctrlPressed = true;
+  }
+}).keyup(function(evt) {
+  if (evt.which == 17) {
+    ctrlPressed = false;
+  }
+});
+
+// Toggle for hiding nodes' descendants
+$(".node").click(function () {
+    if (!ctrlPressed && $(this).parent().children().length > 1){  // Only hides if has descendants
+        $(this).parent().children().toggle();
+        $(this).show();
+        $(this).toggleClass("collapsed");
+        return false; //Invalidates link
+    }
+    else if (!ctrlPressed) {
+        return false; //Invalidates link
+    }
+});
+

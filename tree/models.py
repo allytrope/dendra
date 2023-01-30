@@ -37,6 +37,12 @@ class Individual(models.Model):
             mates = Individual.objects.none()
         return mates
 
+    @property
+    def siblings(self):
+        print(self.sire)
+        siblings = Individual.objects.filter(sire=self.sire).filter(dam=self.dam).exclude(id=self.id)
+        return siblings
+
     def __str__(self):
         return self.id
 

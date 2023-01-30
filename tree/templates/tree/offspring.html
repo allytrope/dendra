@@ -3,9 +3,9 @@
 {% if individual.offspring %}
 <ul>
     {% for offspring in individual.offspring %}
-    <li><a href={% url 'individual' offspring %}>{{offspring}}{{offspring.sex}}</a>
+    <li><a class="node" href={% url 'individual' offspring %}>{{offspring}}{{offspring.sex}}</a>
         {% with individual=offspring %}
-        {% comment %}Must includ "tree" below to avoid restriction of recursion{% endcomment %}
+        {% comment %}Must include "tree" below to avoid restriction of recursion{% endcomment %}
         {% include "tree/offspring.html" %}
         {% endwith %}
     </li>

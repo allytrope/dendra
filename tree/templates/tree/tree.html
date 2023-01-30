@@ -1,5 +1,9 @@
 {% extends 'tree/base.html' %}
 
+{% block tab %}
+<title id="t">ID {{individual}}{{individual.sex|default:"♂"}}</title>
+{% endblock %}
+
 {% block center %}
 <h2>ID {{individual}}{{individual.sex}}</h2>
 <div class="TAC"><a href='https://vger.txbiomed.org/labkey/SNPRC/ehr-participantView.view?participantId={{individual}}'>TAC⧉</a></div>
@@ -14,6 +18,16 @@
     </ul>
 </div>
 <br>
+<h4>Siblings</h4>
+<div class='tree' id='siblings'>
+        {% for sibling in individual.siblings %}
+        <ul>
+            <li><a href={% url 'individual' sibling %}>{{sibling}}{{sibling.sex}}</a>
+            </li>
+        </ul>
+        {% endfor %}
+</div>
+<br>
 <h4>Mates</h4>
 <div class='tree' id='mates'>
         {% for mate in individual.mates %}
@@ -25,11 +39,14 @@
 </div>
 <br>
 <h4>Individual & Descendants</h4>
-<div class='tree'>
+<div class='tree' id="descendants">
     <ul>
-        <li><a href='#'>{{individual}}{{individual.sex}}</a>
+        <li><a class="node" href='#'>{{individual}}{{individual.sex}}</a>
             {% include "./offspring.html" %}
         </li>
     </ul>
 </div>
+</br>
+<p>Click to collapse nodes</p>
+<p>CTRL + click to open individual's page</p>
 {% endblock %}

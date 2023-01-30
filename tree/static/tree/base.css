@@ -50,9 +50,7 @@ h2, h3, h4, .TAC {
 * {margin: 0; padding: 0;}
 
 .tree {
-	width: 500em;
-	overflow-x: auto;
-    white-space: nowrap;
+	width: 100em;
 }
 
 .tree ul {
@@ -114,7 +112,7 @@ right connector from last child*/
 	-moz-border-radius: 5px 0 0 0;
 }
 
-/*Time to add downward connectors from parents*/
+/*Downward connectors from parents*/
 .tree ul ul::before{
 	content: '';
 	position: absolute; top: 0; left: 50%;
@@ -153,3 +151,8 @@ right connector from last child*/
 .tree li a:hover+ul ul::before{
 	border-color:  #94a0b4;
 }
+
+.node { background-color: rgb(221, 231, 240);}
+
+/*Togglable class for when nodes are hidden.*/
+.collapsed { background-color: #eccd91; }
