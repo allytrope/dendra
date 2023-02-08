@@ -1,0 +1,157 @@
+/* Credit to Ilya Pestov for design of pedigree tree. Original code at https://codepen.io/Pestov/pen/AvQmxv. */
+
+* {margin: 0; padding: 0;}
+
+body {
+    background-color: rgb(250, 252, 255);
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 10px;
+    padding: 0px;
+}
+
+h1 {
+	font-family: Verdana, sans-serif;
+}
+
+h2, h3, h4, .TAC {
+	font-family: Candara, Helvetica, sans-serif;
+}
+
+.center div {
+    display: flex;
+}
+
+.vertical {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #ccc;
+    border-radius: .5em;
+    width: 20em;
+	li {
+		border-top: 1px solid #ccc;
+		padding: .5em;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		:first-child {
+			border-top: 0;
+		}
+	}
+}
+
+.tree {
+	display: flex;
+	.generations {
+		display: flex;
+		flex-direction: column;
+		padding-top: 3px;
+		p {
+			padding-top: 20px;
+			padding-bottom: 25px;
+		}
+	}
+	ul {
+		padding-top: 20px; position: relative;
+		transition: all 0.5s;
+		-webkit-transition: all 0.5s;
+		-moz-transition: all 0.5s;
+		display: flex; /* Keeps nodes from wrapping */
+		/*Downward connectors from parents*/
+		ul::before {
+			content: '';
+			position: absolute; top: 0; left: 50%;
+			border-left: 1px solid #ccc;
+			width: 0; height: 20px;
+		}
+	}
+	li {
+		float: left; text-align: center;
+		list-style-type: none;
+		position: relative;
+		padding: 20px 5px 0 5px;
+		
+		transition: all 0.5s;
+		-webkit-transition: all 0.5s;
+		-moz-transition: all 0.5s;
+		a {
+			border: 1px solid #ccc;
+			padding: 5px 10px;
+			text-decoration: none;
+			color: rgb(102, 102, 102);
+			font-family: arial, verdana, tahoma;
+			font-size: 11px;
+			display: inline-block;
+			
+			border-radius: 5px;
+			-webkit-border-radius: 5px;
+			-moz-border-radius: 5px;
+			
+			transition: all 0.5s;
+			-webkit-transition: all 0.5s;
+			-moz-transition: all 0.5s;
+		}
+		a:hover, a:hover+ul li a {
+			/*background: #c8e4f8; color: #000; border: 1px solid #94a0b4;*/
+			background: rgba(0, 128, 128, 0.308); color: #000; border: 1px solid #94a0b4;
+		}
+		/*Style connectors on hover*/
+		a:hover + ul li::after,
+		a:hover + ul li::before,
+		a:hover + ul::before,
+		a:hover + ul ul::before {
+			border-color: #94a0b4;
+		}
+	}
+	/*We will use ::before and ::after to draw the connectors*/
+	li::before, li::after{
+		content: '';
+		position: absolute; top: 0; right: 50%;
+		border-top: 1px solid #ccc;
+		width: 50%; height: 20px;
+	}
+	li::after{
+		right: auto; left: 50%;
+		border-left: 1px solid #ccc;
+	}
+	/*We need to remove left-right connectors from elements without 
+	any siblings*/
+	li:only-child::after, li:only-child::before {
+		display: none;
+	}
+
+	/*Remove space from the top of single children*/
+	li:only-child{ padding-top: 0;}
+
+	/*Remove left connector from first child and 
+	right connector from last child*/
+	li:first-child::before, li:last-child::after{
+		border: 0 none;
+	}
+	/*Adding back the vertical connector to the last nodes*/
+	li:last-child::before{
+		border-right: 1px solid #ccc;
+		border-radius: 0 5px 0 0;
+		-webkit-border-radius: 0 5px 0 0;
+		-moz-border-radius: 0 5px 0 0;
+	}
+	li:first-child::after{
+		border-radius: 5px 0 0 0;
+		-webkit-border-radius: 5px 0 0 0;
+		-moz-border-radius: 5px 0 0 0;
+	}
+}
+
+.node { background-color: rgb(221, 231, 240);}
+
+/*Togglable class for when nodes are hidden.*/
+.collapsed { background-color: #eccd91; }
+
+/*Toggable class for making nodes more condensed*/
+.condensed {
+	width: 3px;
+	white-space: nowrap;
+	p {
+		color: rgba(0, 0, 0, 0);
+	}
+}

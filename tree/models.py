@@ -1,4 +1,5 @@
 from django.db import models
+import roman
 
 
 class Individual(models.Model):
@@ -42,6 +43,24 @@ class Individual(models.Model):
         print(self.sire)
         siblings = Individual.objects.filter(sire=self.sire).filter(dam=self.dam).exclude(id=self.id)
         return siblings
+
+    @property
+    def generations(self):
+        max_height = 1
+        def inner_loop(individual, cur_height, max_height):
+            print("Indiv", individual)
+            print(self.offspring)
+            print("cur height:", cur_height)
+            print("max height:", max_height)
+            for offspring in individual.offspring:
+                cur_height += 1
+                if cur_height > max_height:
+                    max_height += 1
+                max_height = inner_loop(individual=offspring, cur_height=cur_height, max_height=max_height)
+                cur_height -= 1
+            return max_height
+        max_height = inner_loop(individual=self, cur_height=1, max_height=max_height)
+        return [roman.toRoman(num) for num in range(1, max_height + 1)]
 
     def __str__(self):
         return self.id

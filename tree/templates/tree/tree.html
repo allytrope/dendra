@@ -39,9 +39,19 @@
 </div>
 <br>
 <h4>Individual & Descendants</h4>
+<div class='tree_options'>
+    <button class='condense'>Condense</button>
+</div>
 <div class='tree' id="descendants">
-    <ul>
-        <li><a class="node" href='#'>{{individual}}{{individual.sex}}</a>
+    <div class='generations'>
+        {% for generation in individual.generations %}
+        <p>
+            {{generation}}
+        </p>
+        {% endfor %}
+    </div>
+    <ul class="root">
+        <li><a class="node" href='#'><p>{{individual}}{{individual.sex}}</p></a>
             {% include "./offspring.html" %}
         </li>
     </ul>
