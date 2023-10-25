@@ -1,0 +1,16 @@
+{% comment %}This is part of a recursion process within tree.html{% endcomment %}
+
+{% if individual.parents %}
+<ul>
+    {% for parent in individual.parents %}
+    <li><a class="node" href={% url 'individual' parent %}>
+            <p>{{parent}}{{parent.sex}}</p>
+        </a>
+        {% with individual=parent %}
+        {% comment %}Must include "tree" below to avoid restriction of recursion{% endcomment %}
+        {% include "tree/parents.html" %}
+        {% endwith %}
+    </li>
+    {% endfor %}
+</ul>
+{% endif %}

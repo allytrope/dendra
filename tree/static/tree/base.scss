@@ -13,35 +13,125 @@ h1 {
 	font-family: Verdana, sans-serif;
 }
 
-h2, h3, h4, .TAC {
-	font-family: Candara, Helvetica, sans-serif;
+h2, h3, h4, .TAC, .relatives{
+	font-family: BahnSchrift, Helvetica, sans-serif;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 .center div {
     display: flex;
 }
 
-.vertical {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    border: 1px solid #ccc;
-    border-radius: .5em;
-    width: 20em;
-	li {
-		border-top: 1px solid #ccc;
-		padding: .5em;
+// .vertical {
+//     list-style: none;
+//     margin: 0;
+//     padding: 0;
+//     border: 1px solid #ccc;
+//     border-radius: .5em;
+//     width: 20em;
+// 	li {
+// 		border-top: 1px solid #ccc;
+// 		padding: .5em;
+// 		display: flex;
+// 		justify-content: space-between;
+// 		align-items: center;
+// 		:first-child {
+// 			border-top: 0;
+// 		}
+// 	}
+// }
+
+.tree_options {
+	button {
+		background-color: rgb(221, 231, 240);
+		border-color: #94a0b4;
+		border-style: solid;
+		border-radius: 12px;
+		border-width: thin;
+		//font-family: arial, verdana, tahoma;
+		font-size: 14px;
+		margin: 2px;
+		padding: 5px;
+	}
+	button:hover {
+		cursor: pointer;
+	}
+}
+
+.flex { // Contains all shaded boxes
+	display: flex;
+	flex-direction: row;
+	.main_column { // Contains trees layed out vertically
+		//flex-grow: 4;
 		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		:first-child {
-			border-top: 0;
+		flex-direction: column;
+	}
+	.info_column { // Contains individual-specific data
+		float: right;
+		//flex-grow: 1;
+		.info_box {
+			display: flex;
+			flex-direction: column;
+			width: 175px;
+			.species {
+				font-family: BahnSchrift;
+				font-style: italic;
+			}
+			.seqs {
+				margin-top: 5px;
+				margin-bottom: 5px;
+				.seq{
+					border-style: solid;
+					border-radius: 12px;
+					border-width: thin;
+					//font-family: arial, verdana, tahoma;
+					font-size: 14px;
+					margin: 2px;
+					padding: 5px;
+				}
+				.lrWGS {
+					background-color: #e7ddae;
+					border-color: #e3b36a;
+				}
+				.WGS {
+					background-color: #c0e7ae;
+					border-color: #86cf3c ;
+				}
+				.WES {
+					background-color: #aee7e0;
+					border-color: #3cc9cf;
+				}
+				.GBS {
+					background-color: #aeb4e7;
+					border-color: #966ae3;
+				}
+				.AMP {
+					background-color: #e7aeae;
+					border-color: #e36a6a;
+				}
+			}
+			.TAC {
+				text-align: right;
+			}
 		}
 	}
 }
 
+.box {
+	border-style: solid;
+	border-radius: 25px;
+	border-width: thin;
+	background: #ecf6fa;
+	padding: 20px;
+	margin: 15px;
+
+}
+
 .tree {
 	display: flex;
+	//justify-content: center;
+	text-align: center;
 	.generations {
 		display: flex;
 		flex-direction: column;
@@ -50,6 +140,9 @@ h2, h3, h4, .TAC {
 			padding-top: 20px;
 			padding-bottom: 25px;
 		}
+		p:hover {
+			cursor: pointer;
+		}
 	}
 	ul {
 		padding-top: 20px; position: relative;
@@ -57,6 +150,7 @@ h2, h3, h4, .TAC {
 		-webkit-transition: all 0.5s;
 		-moz-transition: all 0.5s;
 		display: flex; /* Keeps nodes from wrapping */
+		/*flex-direction: column-reverse;
 		/*Downward connectors from parents*/
 		ul::before {
 			content: '';
@@ -140,6 +234,13 @@ h2, h3, h4, .TAC {
 		-webkit-border-radius: 5px 0 0 0;
 		-moz-border-radius: 5px 0 0 0;
 	}
+	#ancestors {
+		transform: rotate(180deg);  //Rotate tree
+		float: left;
+		a{
+			transform: rotate(180deg);  //Rotate ids back
+		}
+	}
 }
 
 .node { background-color: rgb(221, 231, 240);}
@@ -154,4 +255,42 @@ h2, h3, h4, .TAC {
 	p {
 		color: rgba(0, 0, 0, 0);
 	}
+}
+
+.proband {
+	font-weight: bold;
+}
+
+.figure_toolbar {
+	display: flex;
+	flex-direction: row;
+	margin: auto; // Centers toolbar
+
+	.figure_option {
+		display: flex;
+		flex-direction: column;
+		#first { // Round first box
+			border-top-left-radius: 12px;
+			border-bottom-left-radius: 12px;
+		}
+		#last { // Round last box
+			border-top-right-radius: 12px;
+			border-bottom-right-radius: 12px;
+		}
+		img {
+			border-style: solid;
+			//border-radius: 12px;
+			border-width: thin;
+			height: 70px;
+			width: 70px;
+		}
+		div {
+			display: block;
+			font-family: BahnSchrift, Helvetica, sans-serif;
+			font-size: 12px;
+			text-align: center
+		}
+
+	}
+
 }

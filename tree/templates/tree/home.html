@@ -1,0 +1,35 @@
+{% extends 'tree/base.html' %}
+{% block tab %}
+<script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.9.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.1"></script>
+{% load static %}
+<link rel='stylesheet' type='text/css' href='{% static "tree/home.css" %}'>
+{% endblock %}
+
+{% block center %}
+<div class='species_list'>
+    <div class='species_title'>
+        Species
+    </div>
+    <div class='species'>
+        <img></img>
+        <div class='species_name'>
+            Macaca mulatta
+        </div>
+    </div>
+    <div class='species'>
+        <div class='species_name'>
+            Callithrix jacchus
+        </div>
+    </div>
+    <div class='species'>
+        <div class='species_name'>
+            Papio spp.
+        </div>
+    </div>
+</div>
+<div id="vis"></div>
+<script type="text/javascript">
+</script>
+{% endblock %}

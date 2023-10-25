@@ -1,0 +1,18 @@
+{% extends 'tree/base.html' %}
+{% block tab %}
+<script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.9.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.1"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+{% endblock %}
+
+{% block center %}
+{% load static %}
+<div id="Mamu-A"></div>
+<div id="Mamu-B"></div>
+<script type="text/javascript">
+    //vegaEmbed('#vis', '/individual/figures/Mamu-A.json');
+    vegaEmbed('#Mamu-A', '{% static "tree/figures/Mamu-A.json" %}', opt={'height': 100});
+    vegaEmbed('#Mamu-B', '{% static "tree/figures/Mamu-B.json" %}');
+</script>
+{% endblock %}

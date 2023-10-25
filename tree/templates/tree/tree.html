@@ -2,13 +2,125 @@
 
 {% block tab %}
 <title id="t">ID {{individual}}{{individual.sex|default:"♂"}}</title>
+<script src="https://cdn.jsdelivr.net/npm/vega@5.25.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.9.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.22.1"></script>
 {% endblock %}
 
 {% block center %}
-<h2>ID {{individual}}{{individual.sex}}</h2>
-<div class="TAC"><a href='https://vger.txbiomed.org/labkey/SNPRC/ehr-participantView.view?participantId={{individual}}'>TAC⧉</a></div>
+<div class='flex'>
+    <div class='main_column'>
+        <h4>Tree Options</h4>
+        <div class='tree_options'>
+            <button class='condense'>Condense</button>
+            <button class='male_selector'>♂</button>
+            <button class='female_selector'>♀</button>
+        </div>
+        <h4>Ancestors</h4>
+        <div class="box">
+            <div class='tree'>
+                <div class='generations'>
+                    {% for generation in individual.reverse_generations %}
+                    <p>
+                        {{generation}}
+                    </p>
+                    {% endfor %}
+                </div>
+                <div id="ancestors">
+                    <ul class="root">
+                        <li>
+                            <a class="node" href='#'>
+                                <p><span class='proband'>{{individual}}</span>{{individual.sex}}</p>
+                            </a>
+                            {% include "./parents.html" %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <br>
+        <h4>Descendants</h4>
+        <div class="box">
+            <div class='tree'>
+                <div class='generations'>
+                    {% for generation in individual.generations %}
+                    <p>
+                        {{generation}}
+                    </p>
+                    {% endfor %}
+                </div>
+                <div id="descendants">
+                    <ul class="root">
+                        <li class="clade">
+                            <a class="node" href='#'>
+                                <!--<p {% if individual in probands %} class='proband' {% endif %}>{{individual}}{{individual.sex}}</p>{{individual.sex}}-->
+                                <p><span class='proband' {% if individual in probands %}>{{individual}}</span>{% endif %}{{individual.sex}}</p>
+                            </a>
+                            {% include "./offspring.html" %}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <h4>Figures</h4>
+        <div class='figure_toolbar'>
+            <div class='figure_option'>
+                <img src=""/ id='first'>
+                <div>Individual</div>
+            </div>
+            <div class='figure_option'>
+                <img src=""/>
+                <div>Admixture</div>
+            </div>
+            <div class='figure_option'>
+                <img src=""/>
+                <div>ROH</div>
+            </div>
+            <div class='figure_option'>
+                <img src=""/>
+                <div>FST</div>
+            </div>
+            <div class='figure_option'>
+                <img src=""/ id='last'>
+                <div>PCA</div>
+            </div>
+        </div>
+    </div>
+    <div class='info_column'>
+        <div class='box info_box'>
+            <h2>ID {{individual}}{{individual.sex}}</h2>
+            <div class='species'>Macaca mulatta</div>
+            <div class='seqs'>
+                <div class='seq WGS'>
+                    WGS
+                </div>
+                <div class='seq WES'>
+                    WES
+                </div>
+                <div class='seq GBS'>
+                    GBS
+                </div>
+            </div>
+            <div class='relatives'>
+                Siblings: {{individual.siblings.count}}
+            </div>
+            <div class='relatives'>
+                Mates: {{individual.mates.count}}
+            </div>
+            <div class="TAC">
+                <a href='https://vger.txbiomed.org/labkey/SNPRC/ehr-participantView.view?participantId={{individual}}'>TAC⧉</a>
+            </div>
+        </div>
+    </div>
+</div>
+</br>
+<p>Click to collapse nodes</p>
+<p>CTRL + click to open individual's page</p>
+<p>SHIFT + click to move node between trees</p>
+
 <br>
-<h4 id='parents'>Parents</h4>
+
+{% comment %} <h4 id='parents'>Parents</h4>
 <div class='tree'>
     <ul>
         <li class='sire'><a {% if individual.sire %}href={% url 'individual' individual.sire %}{% endif %}>{{individual.sire|default:"Unknown"}}{{sire.sex|default:"♂"}}</a></li>
@@ -16,7 +128,7 @@
     <ul>
         <li class='dam'><a {% if individual.dam %}href={% url 'individual' individual.dam %}{% endif %}>{{individual.dam|default:"Unknown"}}{{dam.sex|default:"♀"}}</a></li>
     </ul>
-</div>
+</div> {% endcomment %}
 <br>
 <h4>Siblings</h4>
 <div class='tree' id='siblings'>
@@ -38,25 +150,13 @@
         {% endfor %}
 </div>
 <br>
-<h4>Individual & Descendants</h4>
-<div class='tree_options'>
-    <button class='condense'>Condense</button>
-</div>
-<div class='tree' id="descendants">
-    <div class='generations'>
-        {% for generation in individual.generations %}
-        <p>
-            {{generation}}
-        </p>
-        {% endfor %}
-    </div>
-    <ul class="root">
-        <li><a class="node" href='#'><p>{{individual}}{{individual.sex}}</p></a>
-            {% include "./offspring.html" %}
-        </li>
-    </ul>
-</div>
-</br>
-<p>Click to collapse nodes</p>
-<p>CTRL + click to open individual's page</p>
+
+
+<div id="vis"></div>
+{% load static %}
+<script type="text/javascript">
+    //vegaEmbed('#vis', '{% static "tree/figures/rhesus_U42_ROH.json" %}');
+    vegaEmbed('#vis', '{% static "tree/figures/rhesus_U42_ROH_interactive.json" %}');
+    //vegaEmbed('#vis', fig);
+</script>
 {% endblock %}

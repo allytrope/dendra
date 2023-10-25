@@ -13,6 +13,16 @@ class Individual(models.Model):
     ])
     
     @property
+    def parents(self):
+        parents = []
+        if self.sire:
+            parents.append(self.sire)
+        if self.dam:
+            parents.append(self.dam)
+        #return [self.sire, self.dam]
+        return parents
+
+    @property
     def offspring(self, coparent=None):
         if self.sex == "♂":
             offspring = Individual.objects.filter(sire=self)
@@ -48,10 +58,10 @@ class Individual(models.Model):
     def generations(self):
         max_height = 1
         def inner_loop(individual, cur_height, max_height):
-            print("Indiv", individual)
-            print(self.offspring)
-            print("cur height:", cur_height)
-            print("max height:", max_height)
+            # print("Indiv", individual)
+            # print(self.offspring)
+            # print("cur height:", cur_height)
+            # print("max height:", max_height)
             for offspring in individual.offspring:
                 cur_height += 1
                 if cur_height > max_height:
@@ -61,6 +71,25 @@ class Individual(models.Model):
             return max_height
         max_height = inner_loop(individual=self, cur_height=1, max_height=max_height)
         return [roman.toRoman(num) for num in range(1, max_height + 1)]
+        
+    @property
+    def reverse_generations(self):
+        max_height = 1
+        def inner_loop(individual, cur_height, max_height):
+            for parent in individual.parents:
+                cur_height += 1
+                if cur_height > max_height:
+                    max_height += 1
+                max_height = inner_loop(individual=parent, cur_height=cur_height, max_height=max_height)
+                cur_height -= 1
+            return max_height
+        max_height = inner_loop(individual=self, cur_height=1, max_height=max_height)
+        return [roman.toRoman(num) for num in range(1, max_height + 1)]
+
+    
+    # @property
+    # def reverse_generations(self):
+    #     return reversed(self.generations)
 
     def __str__(self):
         return self.id
