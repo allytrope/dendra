@@ -15,6 +15,13 @@
             <button class='condense'>Condense</button>
             <button class='male_selector'>♂</button>
             <button class='female_selector'>♀</button>
+            <select>
+                <option value='kinship'>Kinship</option>
+                <option value='froh'>FROH</option>
+                <option value='seq_type'>Seq Type</option>
+                <option value='sex'>Sex</option>
+                <option value='status'>Status</option>
+            </select>
         </div>
         <h4>Ancestors</h4>
         <div class="box">
@@ -65,30 +72,39 @@
         <h4>Figures</h4>
         <div class='figure_toolbar'>
             <div class='figure_option'>
-                <img src=""/ id='first'>
+                {% load static %}
+                <img src="{% static 'tree/img/monkey.png' %}" id='first'>
                 <div>Individual</div>
             </div>
             <div class='figure_option'>
-                <img src=""/>
+                <img src="{% static 'tree/img/admixture.png' %}"/>
                 <div>Admixture</div>
             </div>
             <div class='figure_option'>
-                <img src=""/>
+                <img src="{% static 'tree/img/ROH.png' %}"/>
                 <div>ROH</div>
             </div>
             <div class='figure_option'>
-                <img src=""/>
+                <img src="{% static 'tree/img/Fst.png' %}"/>
                 <div>FST</div>
             </div>
             <div class='figure_option'>
-                <img src=""/ id='last'>
+                <img src="{% static 'tree/img/PCA.png' %}"/ id='last'>
                 <div>PCA</div>
             </div>
+        </div>
+        <div id='instructions'>
+            <p>Click to collapse nodes</p>
+            <p>CTRL + click to open individual's page</p>
+            <p>SHIFT + click to move node between trees</p>
         </div>
     </div>
     <div class='info_column'>
         <div class='box info_box'>
-            <h2>ID {{individual}}{{individual.sex}}</h2>
+            <div>
+                <h2>ID <span id="indiv_id">{{individual}}</span><span id="indiv_sex">{{individual.sex}}</span></h2>
+                <button id='indiv_lock'>🔓</button>
+            </div>
             <div class='species'>Macaca mulatta</div>
             <div class='seqs'>
                 <div class='seq WGS'>
@@ -114,9 +130,7 @@
     </div>
 </div>
 </br>
-<p>Click to collapse nodes</p>
-<p>CTRL + click to open individual's page</p>
-<p>SHIFT + click to move node between trees</p>
+
 
 <br>
 
@@ -129,7 +143,9 @@
         <li class='dam'><a {% if individual.dam %}href={% url 'individual' individual.dam %}{% endif %}>{{individual.dam|default:"Unknown"}}{{dam.sex|default:"♀"}}</a></li>
     </ul>
 </div> {% endcomment %}
-<br>
+
+
+{% comment %} <br>
 <h4>Siblings</h4>
 <div class='tree' id='siblings'>
         {% for sibling in individual.siblings %}
@@ -149,14 +165,14 @@
         </ul>
         {% endfor %}
 </div>
-<br>
+<br> {% endcomment %}
 
 
 <div id="vis"></div>
 {% load static %}
-<script type="text/javascript">
+{% comment %} <script type="text/javascript">
     //vegaEmbed('#vis', '{% static "tree/figures/rhesus_U42_ROH.json" %}');
     vegaEmbed('#vis', '{% static "tree/figures/rhesus_U42_ROH_interactive.json" %}');
     //vegaEmbed('#vis', fig);
-</script>
+</script> {% endcomment %}
 {% endblock %}

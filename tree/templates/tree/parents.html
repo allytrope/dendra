@@ -4,7 +4,7 @@
 <ul>
     {% for parent in individual.parents %}
     <li><a class="node" href={% url 'individual' parent %}>
-            <p>{{parent}}{{parent.sex}}</p>
+            <p><span>{{parent}}</span>{{parent.sex}}</p>
         </a>
         {% with individual=parent %}
         {% comment %}Must include "tree" below to avoid restriction of recursion{% endcomment %}

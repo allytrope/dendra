@@ -2,10 +2,33 @@
 
 * {margin: 0; padding: 0;}
 
+#banner{
+	background-color: rgb(70, 108, 165);
+	display: flex;
+	flex-direction: row-reverse;
+	height: 50px;
+	margin: 0px;
+	padding: 10px;
+	#links{
+		display: flex;
+		float: right;
+		align-items: center;
+		#txbiomed_logo{
+			align-items: left;
+		}
+		#github_logo{
+			float: right;
+			vertical-align: middle;
+			margin: 0 auto
+			
+		}
+	}
+}
+
 body {
     background-color: rgb(250, 252, 255);
     font-family: Arial, Helvetica, sans-serif;
-    margin: 10px;
+    //margin: 10px;
     padding: 0px;
 }
 
@@ -19,8 +42,16 @@ h2, h3, h4, .TAC, .relatives{
 	margin-bottom: 5px;
 }
 
+.locked{
+	opacity: 1;
+}
+// .unlocked:after{
+// 	content: 'testing'
+// }
+
 .center div {
     display: flex;
+	margin: 10px;
 }
 
 // .vertical {
@@ -43,7 +74,7 @@ h2, h3, h4, .TAC, .relatives{
 // }
 
 .tree_options {
-	button {
+	button, select {
 		background-color: rgb(221, 231, 240);
 		border-color: #94a0b4;
 		border-style: solid;
@@ -63,20 +94,44 @@ h2, h3, h4, .TAC, .relatives{
 	display: flex;
 	flex-direction: row;
 	.main_column { // Contains trees layed out vertically
-		//flex-grow: 4;
 		display: flex;
 		flex-direction: column;
+		overflow-y: auto; // For some reason, this seems to be required for the .tree overflow-y to work
+		.tree {
+			overflow-y:auto;
+		}
 	}
 	.info_column { // Contains individual-specific data
 		float: right;
 		//flex-grow: 1;
+		margin-right: 32px;
+		min-width: 175px;
+		//width: 5%;
 		.info_box {
 			display: flex;
 			flex-direction: column;
-			width: 175px;
+			//margin: 0px;
+			//width: 175px;
+			h2 {
+				margin: 0px;
+				padding: 0px;
+			}
 			.species {
 				font-family: BahnSchrift;
 				font-style: italic;
+				margin-top: 0px;
+				margin-bottom: 0px;
+			}
+			#indiv_lock {
+				background: none;
+				border-style: none;
+				color: rgba(0, 0, 0, 0.6);
+				float: right;
+				text-align: right;
+				font-size: 22px;
+			}
+			#indiv_lock:hover {
+				cursor: pointer;
 			}
 			.seqs {
 				margin-top: 5px;
@@ -114,6 +169,10 @@ h2, h3, h4, .TAC, .relatives{
 			.TAC {
 				text-align: right;
 			}
+			.relatives {
+				margin-top: 5px;
+				margin-bottom: 5px;
+			}
 		}
 	}
 }
@@ -147,8 +206,6 @@ h2, h3, h4, .TAC, .relatives{
 	ul {
 		padding-top: 20px; position: relative;
 		transition: all 0.5s;
-		-webkit-transition: all 0.5s;
-		-moz-transition: all 0.5s;
 		display: flex; /* Keeps nodes from wrapping */
 		/*flex-direction: column-reverse;
 		/*Downward connectors from parents*/
@@ -166,8 +223,6 @@ h2, h3, h4, .TAC, .relatives{
 		padding: 20px 5px 0 5px;
 		
 		transition: all 0.5s;
-		-webkit-transition: all 0.5s;
-		-moz-transition: all 0.5s;
 		a {
 			border: 1px solid #ccc;
 			padding: 5px 10px;
@@ -178,12 +233,8 @@ h2, h3, h4, .TAC, .relatives{
 			display: inline-block;
 			
 			border-radius: 5px;
-			-webkit-border-radius: 5px;
-			-moz-border-radius: 5px;
 			
 			transition: all 0.5s;
-			-webkit-transition: all 0.5s;
-			-moz-transition: all 0.5s;
 		}
 		a:hover, a:hover+ul li a {
 			/*background: #c8e4f8; color: #000; border: 1px solid #94a0b4;*/
@@ -208,7 +259,7 @@ h2, h3, h4, .TAC, .relatives{
 		right: auto; left: 50%;
 		border-left: 1px solid #ccc;
 	}
-	/*We need to remove left-right connectors from elements without 
+	/*Remove left-right connectors from elements without 
 	any siblings*/
 	li:only-child::after, li:only-child::before {
 		display: none;
@@ -222,17 +273,17 @@ h2, h3, h4, .TAC, .relatives{
 	li:first-child::before, li:last-child::after{
 		border: 0 none;
 	}
-	/*Adding back the vertical connector to the last nodes*/
+	/*Add back the vertical connector to the last nodes*/
 	li:last-child::before{
 		border-right: 1px solid #ccc;
 		border-radius: 0 5px 0 0;
-		-webkit-border-radius: 0 5px 0 0;
-		-moz-border-radius: 0 5px 0 0;
+		//-webkit-border-radius: 0 5px 0 0;
+		//-moz-border-radius: 0 5px 0 0;
 	}
 	li:first-child::after{
 		border-radius: 5px 0 0 0;
-		-webkit-border-radius: 5px 0 0 0;
-		-moz-border-radius: 5px 0 0 0;
+		//-webkit-border-radius: 5px 0 0 0;
+		//-moz-border-radius: 5px 0 0 0;
 	}
 	#ancestors {
 		transform: rotate(180deg);  //Rotate tree
@@ -243,10 +294,14 @@ h2, h3, h4, .TAC, .relatives{
 	}
 }
 
-.node { background-color: rgb(221, 231, 240);}
+.node {
+	background-color: rgb(221, 231, 240);
+}
 
 /*Togglable class for when nodes are hidden.*/
-.collapsed { background-color: #eccd91; }
+.collapsed {
+	background-color: #eccd91;
+}
 
 /*Toggable class for making nodes more condensed*/
 .condensed {
@@ -261,14 +316,22 @@ h2, h3, h4, .TAC, .relatives{
 	font-weight: bold;
 }
 
+.discrete_value{
+	background-color: #e36a6a;
+}
+
 .figure_toolbar {
 	display: flex;
 	flex-direction: row;
+	justify-content: center;
 	margin: auto; // Centers toolbar
+	//padding: 0px;
 
 	.figure_option {
 		display: flex;
 		flex-direction: column;
+		margin: 0px;
+		padding: 0px;
 		#first { // Round first box
 			border-top-left-radius: 12px;
 			border-bottom-left-radius: 12px;
@@ -287,10 +350,28 @@ h2, h3, h4, .TAC, .relatives{
 		div {
 			display: block;
 			font-family: BahnSchrift, Helvetica, sans-serif;
-			font-size: 12px;
+			font-size: 11px;
 			text-align: center
 		}
 
 	}
 
+}
+
+#instructions{
+	display:flex;
+	flex-direction: column;
+}
+
+.mate {
+	//background-color: rgb(231, 71, 71);
+	//top: 30;
+	//position: relative;
+	bottom: 89px; // 88px or 89px both aren't quite perfect
+	//bottom: 50%;
+	//	position: absolute; top: 0; right: 50%;
+	transform: rotate(180deg);
+	a {
+		transform: rotate(180deg);
+	}
 }

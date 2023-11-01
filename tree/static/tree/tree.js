@@ -17,6 +17,24 @@ $(document).keydown(function(evt) {
   }
 });
 
+
+// Changing individual panel on hover of node
+$(".node").hover(function(){
+    if ($("#indiv_lock").text() == "🔒") {
+        return;
+    }
+    var proband = $(this).children().first().children().first().text();
+    //alert(proband);
+    $.get("/api/individuals/" + proband + "/", function(data, status){
+        $("#indiv_id").text(data.id);
+        $("#indiv_sex").text(data.sex);
+        //alert("Data: " + data.sex + "\nStatus: " + status);
+    })
+},
+function(){}
+)
+
+
 // Toggle for hiding nodes' descendants
 $(".node").click(function() {
     if (shiftPressed) {
@@ -58,3 +76,54 @@ $(".condense").click(function() {
     // Toggle text between "Condense" and "Expand"
     $(this).text($(this).text() == "Condense" ? "Expand" : "Condense");
 });
+
+
+// Testng for inverting mates
+//$(".node").children("p").children("span").filter(function)
+//$(".indiv30029").html("test")
+// $(".node").filter(function(idx) {
+//     return this.children("p").children("span").first().innerHTML[0] == "3";
+//  }).css("background-color", "green");
+// $(".node:contains('30015')").parent().addClass("mate")  //.css("background-color", "green");
+
+$("#indiv_lock").click(function(){
+   $(this).toggleClass("locked");
+    if ($(this).text() == "🔒"){
+        $(this).text("🔓");
+    }
+    else{
+        $(this).text("🔒");
+    }
+})
+
+
+
+// Calling local REST API for single proband
+$(".male_selector").click(function(){
+    var proband = $(".proband").first().text();
+    $.get("/api/individuals/" + proband + "/", function(data, status){
+        alert("Data: " + data.sex + "\nStatus: " + status);
+    })
+    // $.ajax({
+    //     url: "/api/individuals/",
+    //     type: 'GET',
+    //     dataType: "json",
+    //     data: {
+    //         "id": "27886",
+    //     },
+    //     success: (response) => {
+    //         alert(response.id);
+    //     },
+    //     error: (error) => {
+    //         console.log(error);
+    //     }
+    // })
+})
+
+// // Calling local REST API for all individuals in tree
+// $(".female_selector").click(function(){
+//     $(".node").each(func(index){
+//         $.get("/api/individuals/" + proband + "/", function(data, status){})
+// })
+
+

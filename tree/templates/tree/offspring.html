@@ -4,7 +4,7 @@
 <ul>
     {% for offspring in individual.offspring %}
     <li><a class="node" href={% url 'individual' offspring %}>
-            <p {% if offspring in probands %} class='proband' {% endif %}>{{offspring}}{{offspring.sex}}</p>
+            <p {% if offspring in probands %} class='proband' {% endif %}><span>{{offspring}}</span>{{offspring.sex}}</p>
         </a>
         {% with individual=offspring %}
         {% comment %}Must include "tree" below to avoid restriction of recursion{% endcomment %}
