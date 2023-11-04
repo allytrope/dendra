@@ -2,15 +2,22 @@
 
 {% if individual.offspring %}
 <ul>
-    {% for offspring in individual.offspring %}
-    <li><a class="node" href={% url 'individual' offspring %}>
-            <p {% if offspring in probands %} class='proband' {% endif %}><span>{{offspring}}</span>{{offspring.sex}}</p>
-        </a>
-        {% with individual=offspring %}
-        {% comment %}Must include "tree" below to avoid restriction of recursion{% endcomment %}
-        {% include "tree/offspring.html" %}
-        {% endwith %}
-    </li>
+    {% for mate in individual.mates %}
+        <li class="mate"><a class="node" href={% url 'individual' mate %}>
+            <p {% if mate in probands %} class='proband' {% endif %}><span>{{mate}}</span>{{mate.sex}}</p>
+        </a></li>
+        {% for offspring in individual.offspring %}
+            {% if offspring in mate.offspring %}
+            <li><a class="node" href={% url 'individual' offspring %}>
+                    <p {% if offspring in probands %} class='proband' {% endif %}><span>{{offspring}}</span>{{offspring.sex}}</p>
+                </a>
+                {% with individual=offspring %}
+                {% comment %}Must include "tree" below to avoid restriction of recursion{% endcomment %}
+                {% include "tree/offspring.html" %}
+                {% endwith %}
+            </li>
+            {% endif %}
+        {% endfor %}
     {% endfor %}
 </ul>
 {% endif %}

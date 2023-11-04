@@ -127,3 +127,6 @@ $(".male_selector").click(function(){
 // })
 
 
+$(".mates_selector").click(function(){
+    $(".mate").toggleClass("hidden");
+})

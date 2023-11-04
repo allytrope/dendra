@@ -217,6 +217,7 @@ h2, h3, h4, .TAC, .relatives{
 		}
 	}
 	li {
+		//left: -35px; //Everythin offset so that mates don't overlap with parent element
 		float: left; text-align: center;
 		list-style-type: none;
 		position: relative;
@@ -238,9 +239,11 @@ h2, h3, h4, .TAC, .relatives{
 		}
 		a:hover, a:hover+ul li a {
 			/*background: #c8e4f8; color: #000; border: 1px solid #94a0b4;*/
-			background: rgba(0, 128, 128, 0.308); color: #000; border: 1px solid #94a0b4;
+			background: rgba(0, 128, 128, 0.308);
+			color: #000;
+			border: 1px solid #94a0b4;
 		}
-		/*Style connectors on hover*/
+		// Highlight lines on hover
 		a:hover + ul li::after,
 		a:hover + ul li::before,
 		a:hover + ul::before,
@@ -248,7 +251,7 @@ h2, h3, h4, .TAC, .relatives{
 			border-color: #94a0b4;
 		}
 	}
-	/*We will use ::before and ::after to draw the connectors*/
+	// Horizontal lines
 	li::before, li::after{
 		content: '';
 		position: absolute; top: 0; right: 50%;
@@ -258,6 +261,7 @@ h2, h3, h4, .TAC, .relatives{
 	li::after{
 		right: auto; left: 50%;
 		border-left: 1px solid #ccc;
+		//transform: scaleX(-1);
 	}
 	/*Remove left-right connectors from elements without 
 	any siblings*/
@@ -268,22 +272,35 @@ h2, h3, h4, .TAC, .relatives{
 	/*Remove space from the top of single children*/
 	li:only-child{ padding-top: 0;}
 
-	/*Remove left connector from first child and 
-	right connector from last child*/
-	li:first-child::before, li:last-child::after{
+	// /*Remove left connector from first child and 
+	// right connector from last child*/
+	// li:first-child::before, li:last-child::after{
+	// 	border: 0 none;
+	// }
+
+	// Remove end horizontal lines when last node.
+	// This also takes into account when the true last (mate) node is hidden.
+	li:first-child::before, li:last-child::after,
+	li.hidden:first-child + li::before,
+	li.hidden:last-child + li::after
+	//li.hidden + li::after
+	{
+		// content: '';
+		// position: absolute; top: 0; right: 50%;
+		// border-top: 8px solid #ccc;
+		// width: 50%; height: 20px;
 		border: 0 none;
 	}
+
 	/*Add back the vertical connector to the last nodes*/
-	li:last-child::before{
+	li:last-child::before,
+	li.hidden:last-child + li::before{
 		border-right: 1px solid #ccc;
 		border-radius: 0 5px 0 0;
-		//-webkit-border-radius: 0 5px 0 0;
-		//-moz-border-radius: 0 5px 0 0;
 	}
-	li:first-child::after{
+	li:first-child::after,
+	li.hidden:first-child + li::after{
 		border-radius: 5px 0 0 0;
-		//-webkit-border-radius: 5px 0 0 0;
-		//-moz-border-radius: 5px 0 0 0;
 	}
 	#ancestors {
 		transform: rotate(180deg);  //Rotate tree
@@ -296,11 +313,40 @@ h2, h3, h4, .TAC, .relatives{
 
 .node {
 	background-color: rgb(221, 231, 240);
+	//transform: translate(50%, 0)
 }
 
+.mate {
+	//display: unset;
+	//background-color: rgb(231, 71, 71);
+	//top: 30;
+	//display: block;
+	position: absolute;
+	//bottom: 109px; // 88px or 89px both aren't quite perfect
+	//bottom: 89px; // 88px or 89px both aren't quite perfect
+
+	//bottom: 50%;
+	//	position: absolute; top: 0; right: 50%;
+	transform: scaleY(-1) translate(0, 100%) translate(0, -0.88px); // Exactly 0.88px lines up the lines
+	//left: -50px;
+	a {
+		transform: scaleY(-1);
+	}
+}
+// .mate {
+// 	a::after{
+// 	right: auto; right: 50%;
+// 	border-left: 8px solid #ccc;
+// 	transform: scaleX(-1);
+// 	}
+// }
 /*Togglable class for when nodes are hidden.*/
 .collapsed {
 	background-color: #eccd91;
+}
+
+.hidden {
+	display: none;
 }
 
 /*Toggable class for making nodes more condensed*/
@@ -363,15 +409,4 @@ h2, h3, h4, .TAC, .relatives{
 	flex-direction: column;
 }
 
-.mate {
-	//background-color: rgb(231, 71, 71);
-	//top: 30;
-	//position: relative;
-	bottom: 89px; // 88px or 89px both aren't quite perfect
-	//bottom: 50%;
-	//	position: absolute; top: 0; right: 50%;
-	transform: rotate(180deg);
-	a {
-		transform: rotate(180deg);
-	}
-}
+
