@@ -45,8 +45,14 @@ $(".node").click(function() {
         return false; //Invalidates link
     }
     else if (!ctrlPressed && $(this).parent().children().length > 1){  // Only hides if has descendants
-        $(this).parent().children().toggle();
-        $(this).show();
+        // Collapse nodes
+        if ($(this).hasClass("collapsed")){
+            $(this).parent().children("ul").show('slow', function(){ $(this).parent().children("ul").show(); });
+        }
+        // Uncollapse nodes
+        else {
+            $(this).parent().children("ul").hide('slow', function(){ $(this).parent().children("ul").hide(); });
+        }
         $(this).toggleClass("collapsed");
         return false; //Invalidates link
     }

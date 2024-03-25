@@ -205,7 +205,6 @@ h2, h3, h4, .TAC, .relatives{
 	}
 	ul {
 		padding-top: 20px; position: relative;
-		transition: all 0.5s;
 		display: flex; /* Keeps nodes from wrapping */
 		/*flex-direction: column-reverse;
 		/*Downward connectors from parents*/
@@ -313,6 +312,7 @@ h2, h3, h4, .TAC, .relatives{
 
 .node {
 	background-color: rgb(221, 231, 240);
+	//float: left;
 	//transform: translate(50%, 0)
 }
 
@@ -327,7 +327,10 @@ h2, h3, h4, .TAC, .relatives{
 
 	//bottom: 50%;
 	//	position: absolute; top: 0; right: 50%;
-	transform: scaleY(-1) translate(0, 100%) translate(0, -0.88px); // Exactly 0.88px lines up the lines
+
+	// Exactly 0.88px lines up the lines
+	// However, this then offsets the mate's box
+	transform: scaleY(-1) translate(0, 100%) translate(0, -0.88px);
 	//left: -50px;
 	a {
 		transform: scaleY(-1);
@@ -347,6 +350,8 @@ h2, h3, h4, .TAC, .relatives{
 
 .hidden {
 	display: none;
+	//width: 10px;
+	//transition: all 2s ease-in;
 }
 
 /*Toggable class for making nodes more condensed*/
